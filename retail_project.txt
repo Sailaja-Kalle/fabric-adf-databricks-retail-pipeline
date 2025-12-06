@@ -1,0 +1,208 @@
+
+
+1. prepare control table in Azure sql
+
+create table srinivasbatch60.cntrl_tbl
+(
+	table_name varchar(20)
+	,source_name varchar(20)
+	,table_type varchar(20)
+	,incremental_col varchar(100)
+	,ingestion_dt varchar(20)
+);
+
+insert into srinivasbatch60.cntrl_tbl
+values('reviews','source1','Incremental_append','reviewdate','2025-08-10');
+
+insert into srinivasbatch60.cntrl_tbl values('products','source1','incremental_merge','lastmodifieddate','2025-08-10'
+);
+
+insert into srinivasbatch60.cntrl_tbl values('categories','source1','fullsync','','');
+
+               raw    bronze  silver 
+			   
+
+2. 
+
+Create table srinivasbatch60.reviews
+(
+review_id varchar(10),
+cust_id  varchar(10),
+review_text varchar(1000),
+prod_id varchar(10),
+rating int, 
+reviewdate varchar(20)
+);
+
+insert into srinivasbatch60.reviews values('REVW001','C1','product is not good','PROD001',5,'2025-08-10');
+insert into srinivasbatch60.reviews values('REVW002','C2','Nice product','PROD002',4,'2025-08-10');
+insert into srinivasbatch60.reviews values('REVW003','C3','worthable product','PROD003',3,'2025-08-10');
+insert into srinivasbatch60.reviews values('REVW004','C4','use less product','PROD006',2,'2025-08-10');
+insert into srinivasbatch60.reviews values('REVW005','C1','product is not good','PROD006',1,'2025-08-10');
+insert into srinivasbatch60.reviews values('REVW006','C2','Nice product','PROD001',5,'2025-08-10');
+
+insert into srinivasbatch60.reviews values('REVW007','C1','worthable product','PROD002',4,'2025-08-11');
+insert into srinivasbatch60.reviews values('REVW008','C2','use less product','PROD003',1,'2025-08-11');
+insert into srinivasbatch60.reviews values('REVW009','C3','product is not good','PROD006',2,'2025-08-11');
+insert into srinivasbatch60.reviews values('REVW010','C4','Nice product','PROD006',5,'2025-08-11');
+insert into srinivasbatch60.reviews values('REVW011','C1','worthable product','PROD001',4,'2025-08-11');
+
+insert into reviews values('REVW012','C1','use less product','PROD002',3,'2025-08-03');
+insert into reviews values('REVW013','C2','product is not good','PROD003',2,'2025-08-03');
+insert into reviews values('REVW014','C3','Nice product','PROD006',4,'2025-08-03');
+insert into reviews values('REVW015','C4','product is not good','PROD001',1,'2025-08-03');
+insert into reviews values('REVW016','C1','Nice product','PROD002',5,'2025-08-03');
+insert into reviews values('REVW017','C2','worthable product','PROD003',4,'2025-08-03');
+
+3)
+
+create table products
+(
+productid varchar(10),
+productname  varchar(100),
+productprice varchar(10),
+categoriesid varchar(10),
+lastmodifieddate varchar(20)
+);
+
+
+
+insert into prod_dtls values('PROD001','Mobile','20000','CAT001','2025-08-10');
+insert into prod_dtls values('PROD002','Laptop','30000','CAT002','2025-08-10');
+insert into prod_dtls values('PROD003','Tshirt','990','CAT003','2025-08-10');		     
+
+
+insert into prod_dtls values('PROD002','Laptop','40000','CAT002','2025-08-11');
+insert into prod_dtls values('PROD004','MixerGrainder','5000','CAT004','2025-08-11');
+insert into prod_dtls values('PROD003','Tshirt','1500','CAT003','2025-08-10');
+
+
+4) 
+create table srinivasbatch60.categories
+(
+categoryID	varchar(20),
+categoryName varchar(100),
+ParentcategoryID varchar(20)
+)
+
+
+insert into [srinivasbatch60].categories values('CAT001','HOME',NULL);
+insert into [srinivasbatch60].categories values('CAT002','Electronics','CAT001');
+insert into [srinivasbatch60].categories values('CAT003','Mobiles & Accessories','CAT002');
+insert into [srinivasbatch60].categories values('CAT004','Computers','CAT001');
+insert into [srinivasbatch60].categories values('CAT005','Menswear','CAT001');
+insert into [srinivasbatch60].categories values('CAT006','Clothing And Accessories','CAT006');
+
+
+insert into [srinivasbatch60].categories values('CAT001','HOME',NULL);
+insert into [srinivasbatch60].categories values('CAT002','Electronics','CAT001');
+insert into [srinivasbatch60].categories values('CAT003','Mobiles & Accessories','CAT002');
+insert into [srinivasbatch60].categories values('CAT004','Computers','CAT001');
+insert into [srinivasbatch60].categories values('CAT006','Clothing And Accessories','CAT001');
+insert into [srinivasbatch60].categories values('CAT006','Menswear','CAT006');
+insert into [srinivasbatch60].categories values('CAT007','womenwear','CAT006');
+insert into [srinivasbatch60].categories values('CAT008','Homeappliances','CAT001');
+insert into [srinivasbatch60].categories values('CAT009','mixer and grainder','CAT008');
+
+
+5) 
+
+create table customers(
+CustomerID varchar(20),
+firstname varchar(40),
+lastname  varchar(40),
+mail varchar(40),
+mobilenumber varchar(10),	
+gender	varchar(5),
+city varchar(20)
+);
+
+insert into customers('101','Ravi','jain','Ravi@gmail.com','9820102292','M','chennai');
+
+insert into customers('102','Krish','agarwal','Krish@gmail.com','9820102293','M','bangalore');
+
+insert into customers('103','Rama','Reddy','Rama@gmail.com','9820102294','F','chennai');
+insert into customers('104','Ramu','kochar','Ramu@gmail.com','9820102295','M','Guntur');
+insert into 
+customers('106','lalitha','ambani','lalitha@gmail.com','9820102296','F','Trivendrum');
+
+
+
+insert into customers('101','Ravi','jain','Ravi@gmail.com','9820102292','M','chennai');
+
+insert into customers('102','Krish','agarwal','Krish@gmail.com','9820102293','M','bangalore');
+
+insert into customers('103','Rama','Reddy','Rama@gmail.com','9820102294','F','chennai');
+insert into customers('104','Ramu','kochar','Ramu@gmail.com','9820102295','M','Guntur');
+insert into 
+customers('106','lalitha','ambani','lalitha@gmail.com','9820102296','F','Trivendrum');
+
+
+
+
+=========================================
+
+create procedure updateingestiondt
+@ingestiondt varchar(20),
+@tablename varchar(20)
+AS
+BEGIN
+
+update dbo.cntrl_tbl set  ingestion_dt=convert(VARCHAR(10),DATEADD(day, 1, convert(date, @ingestiondt))) where table_name =@tablename 
+
+END
+
+
+------------------------------------
+
+
+Technical Design:
+1)	Implement the control table in Azure SQL, which contains source tables information like 
+        i)	What are the tables
+        ii)	Table loading criteria
+            (append, scd type1, scd type2 , fullload)
+        iii)Incremental column
+        iv)	Last ingestion Date
+		
+2)	Start Implementing ADF Piepline.
+
+
+3)	Using lookupactivity  connecting to the control table and get details.
+
+4)	Lookupactivity output is input to foreach activity 
+
+5)	Inside foreach activity implement  copyactivity , notebookactivity and stored proc activity
+
+6)	For copy activity source is on prem sqlserver and sink is gen2lake.
+
+7)	By using self hosted IR establish connection to on prem sqlserver.
+
+8)	Create linked service and attach selfthosed IR 
+and then create query based parameterized dataset 
+and attached to copy activity source side.
+
+9)	Create a linked service to establish connection to ADLS (Gen2lake)
+
+
+10)	 Create dataset for gen2lake and attach the linked service. 
+
+11)	 After copy activity we will get the data into gen2lake as json file 
+                                                             (parquetfile)			 
+12)	After copy activity , using the notebook activity call the Databricks notebook
+
+13)	Using Notebookactivity we can process the data and loaded into delta tables.
+14)	 In the notebook using mount point we connect to ADLS create a dataframe on Raw data
+And loaded to bronze zone.
+
+15)	 In our project we maintained 3 types of zones 
+i)	Bronze            2)     silver               3) Gold
+
+16)	From bronze to silver apply the transformations like 
+i)	Derive new columns
+ii)	Date Transformations
+iii)	Case conditions
+iv)	Join operations
+v)	Window functions
+17)	As per the business requirement aggregate the multiple silver zone tables and loaded to gold zone which is for reporting purpose
+18)	 After notebook activity call the stored procedure activity which will update the date in the control table for the next Run.
+19)	 For this project we used scheduling trigger and we scheduled this pipeline daily once.
